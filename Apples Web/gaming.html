@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gaming - Apple's Web</title>
+  <style>
+    /* Global Reset & Base Styling */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: #ffffff;
+      color: #111111;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      line-height: 1.6;
+      padding: 20px;
+    }
+
+    /* Outer Wrapper - Matches Apple's Web Layout */
+    .page-wrapper {
+      max-width: 980px;
+      margin: 0 auto;
+    }
+
+    /* Top Breadcrumb Header */
+    header {
+      padding: 20px 0 15px 0;
+      border-bottom: 1px solid #e0e0e0;
+      margin-bottom: 25px;
+    }
+
+    .nav-breadcrumb {
+      font-size: 0.9rem;
+      margin-bottom: 8px;
+    }
+
+    .nav-breadcrumb a {
+      color: #2563eb;
+      text-decoration: none;
+    }
+
+    .nav-breadcrumb a:hover {
+      text-decoration: underline;
+    }
+
+    h1.site-title {
+      font-family: "Times New Roman", Times, Georgia, serif;
+      font-size: 2.8rem;
+      font-weight: normal;
+      color: #000000;
+      letter-spacing: -0.5px;
+    }
+
+    .subtitle {
+      font-size: 0.95rem;
+      color: #555555;
+      margin-top: 2px;
+    }
+
+    /* Welcome / Feature Callout Box */
+    .welcome-box {
+      background-color: #f7f7f8;
+      border: 1px solid #e0e0e0;
+      padding: 28px 32px;
+      margin-bottom: 35px;
+    }
+
+    .welcome-box h2 {
+      font-family: "Times New Roman", Times, Georgia, serif;
+      font-size: 1.8rem;
+      font-weight: normal;
+      margin-bottom: 12px;
+      color: #111111;
+    }
+
+    .welcome-box p {
+      font-size: 1rem;
+      color: #333333;
+      margin-bottom: 16px;
+    }
+
+    .welcome-box .badge {
+      display: inline-block;
+      font-size: 0.85rem;
+      color: #444444;
+      background-color: #e8e8ed;
+      padding: 3px 10px;
+      border-radius: 3px;
+      margin-top: 5px;
+    }
+
+    /* 3-Column Grid Layout for Gaming Topics */
+    .category-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 30px 25px;
+      margin-bottom: 40px;
+    }
+
+    @media (max-width: 800px) {
+      .category-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width: 550px) {
+      .category-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .category-card {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .category-card h3 {
+      font-family: "Times New Roman", Times, Georgia, serif;
+      font-size: 1.5rem;
+      font-weight: normal;
+      color: #000000;
+      padding-bottom: 8px;
+      border-bottom: 1px solid #e0e0e0;
+      margin-bottom: 12px;
+    }
+
+    .category-card p {
+      font-size: 0.92rem;
+      color: #444444;
+      line-height: 1.5;
+      margin-bottom: 14px;
+      flex-grow: 1;
+    }
+
+    .link-btn {
+      color: #2563eb;
+      text-decoration: none;
+      font-size: 0.95rem;
+      display: inline-block;
+      font-weight: 500;
+      cursor: pointer;
+      background: none;
+      border: none;
+      padding: 0;
+      text-align: left;
+    }
+
+    .link-btn:hover {
+      text-decoration: underline;
+    }
+
+    /* Interactive Gaming Trivia Box */
+    .fact-section {
+      background-color: #ffffff;
+      border: 1px solid #e0e0e0;
+      padding: 24px 28px;
+      margin-bottom: 40px;
+    }
+
+    .fact-section h3 {
+      font-family: "Times New Roman", Times, Georgia, serif;
+      font-size: 1.4rem;
+      font-weight: normal;
+      margin-bottom: 10px;
+    }
+
+    .fact-display {
+      font-size: 0.98rem;
+      color: #333333;
+      padding: 12px;
+      background-color: #f9f9fa;
+      border-left: 3px solid #2563eb;
+      margin-bottom: 15px;
+      min-height: 50px;
+    }
+
+    .action-btn {
+      background-color: #ffffff;
+      border: 1px solid #cccccc;
+      padding: 7px 15px;
+      font-size: 0.88rem;
+      color: #222222;
+      cursor: pointer;
+      transition: background-color 0.15s ease;
+    }
+
+    .action-btn:hover {
+      background-color: #f0f0f0;
+      border-color: #bbbbbb;
+    }
+
+    /* Modal / Pop-up Overlay */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.4);
+      z-index: 1000;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+    }
+
+    .modal-card {
+      background-color: #ffffff;
+      border: 1px solid #cccccc;
+      max-width: 650px;
+      width: 100%;
+      max-height: 85vh;
+      overflow-y: auto;
+      padding: 30px;
+      position: relative;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+    }
+
+    .modal-close {
+      position: absolute;
+      top: 15px;
+      right: 20px;
+      font-size: 1.5rem;
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: #666666;
+    }
+
+    .modal-close:hover {
+      color: #000000;
+    }
+
+    .modal-card h2 {
+      font-family: "Times New Roman", Times, Georgia, serif;
+      font-size: 2rem;
+      font-weight: normal;
+      margin-bottom: 15px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid #e0e0e0;
+    }
+
+    .modal-card p {
+      font-size: 0.98rem;
+      color: #333333;
+      margin-bottom: 14px;
+      line-height: 1.6;
+    }
+
+    .modal-card ul {
+      margin-left: 20px;
+      margin-bottom: 20px;
+    }
+
+    .modal-card li {
+      font-size: 0.95rem;
+      color: #444444;
+      margin-bottom: 6px;
+    }
+
+    footer {
+      border-top: 1px solid #e0e0e0;
+      padding-top: 15px;
+      padding-bottom: 25px;
+      font-size: 0.85rem;
+      color: #666666;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="page-wrapper">
+    <!-- Header with Breadcrumb Navigation -->
+    <header>
+      <div class="nav-breadcrumb">
+        <a href="index.html">&larr; Back to Main Page</a> / Gaming
+      </div>
+      <h1 class="site-title">Apple's Web</h1>
+      <p class="subtitle">Gaming Subpage — Explore Recommendations, Multiplayer &amp; Free2Play</p>
+    </header>
+
+    <!-- Welcome Section -->
+    <section class="welcome-box">
+      <h2>Welcome to Gaming</h2>
+      <p>Explore Game Recommendations, Free2Play Games and Minecraft Multiplayer Servers. Select any category below to browse curated lists, performance tips, and server guides.</p>
+      <span class="badge">Gaming Hub &bull; 6 Core Sections</span>
+    </section>
+
+    <!-- Gaming Categories Grid (3x2) -->
+    <section class="category-grid">
+
+      <!-- 1. Minecraft Multiplayer Servers -->
+      <article class="category-card">
+        <h3>Minecraft Servers</h3>
+        <p>Explore top Minecraft multiplayer networks, survival SMPs, competitive PvP arenas, clans, and client optimization performance mods.</p>
+        <button class="link-btn" onclick="openArticle('minecraft')">Explore Minecraft &rarr;</button>
+      </article>
+
+      <!-- 2. Free2Play Games -->
+      <article class="category-card">
+        <h3>Free2Play Games</h3>
+        <p>Discover top free-to-play competitive titles, tactical shooters, Battle Royales, and MOBAs across PC and console platforms.</p>
+        <button class="link-btn" onclick="openArticle('free2play')">Explore Free2Play &rarr;</button>
+      </article>
+
+      <!-- 3. Game Recommendations -->
+      <article class="category-card">
+        <h3>Recommendations</h3>
+        <p>Browse handpicked single-player adventures, indie gems, cooperative titles, and immersive RPG experiences.</p>
+        <button class="link-btn" onclick="openArticle('recommendations')">Explore Recommended &rarr;</button>
+      </article>
+
+      <!-- 4. PC Performance & Tuning -->
+      <article class="category-card">
+        <h3>PC Performance</h3>
+        <p>Learn tips for boosting FPS, optimizing client settings, configuration tweaks, and maintaining smooth gameplay on any hardware setup.</p>
+        <button class="link-btn" onclick="openArticle('performance')">Explore PC Tuning &rarr;</button>
+      </article>
+
+      <!-- 5. Esports & Competitive -->
+      <article class="category-card">
+        <h3>Esports &amp; Tactics</h3>
+        <p>Examine competitive gaming mechanics, ranked ladder strategies, team coordination, and international esports tournaments.</p>
+        <button class="link-btn" onclick="openArticle('esports')">Explore Esports &rarr;</button>
+      </article>
+
+      <!-- 6. Game Development & Modding -->
+      <article class="category-card">
+        <h3>Modding &amp; Dev</h3>
+        <p>Learn about game engines (Unity, Unreal), community modding tools, custom texture packs, and game mechanics design.</p>
+        <button class="link-btn" onclick="openArticle('modding')">Explore Modding &amp; Dev &rarr;</button>
+      </article>
+
+    </section>
+
+    <!-- Interactive Gaming Fact Generator -->
+    <section class="fact-section">
+      <h3>Gaming Fact of the Day</h3>
+      <div class="fact-display" id="factDisplay">
+        Click the button below to discover a fascinating fact from the gaming world!
+      </div>
+      <button class="action-btn" onclick="getRandomFact()">Get Another Gaming Fact</button>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+      &copy; 2026 Apple's Web &mdash; Gaming Department
+    </footer>
+  </div>
+
+  <!-- Interactive Pop-up Modal -->
+  <div class="modal-overlay" id="articleModal" onclick="closeModalOnOutsideClick(event)">
+    <div class="modal-card">
+      <button class="modal-close" onclick="closeArticle()">&times;</button>
+      <h2 id="modalTitle">Article Title</h2>
+      <div id="modalBody">
+        <!-- Content inserted dynamically via JS -->
+      </div>
+    </div>
+  </div>
+
+  <!-- Interactive JavaScript -->
+  <script>
+    // Gaming Articles Database
+    const articles = {
+      minecraft: {
+        title: "Minecraft Multiplayer Servers & Mods",
+        content: "Minecraft offers a vast multiplayer ecosystem ranging from custom Survival SMPs and Skyblock to high-stakes PvP servers like BedWars and Practice arenas. Clan communities and custom performance mods let players customize their gameplay to perfection.",
+        highlights: [
+          "Popular Server Types: Anarchy, SMP, Practice PvP, Skyblock, and Minigames.",
+          "FPS Optimization: Using Lunar Client, Sodium, Lithium, and 16x PvP texture packs dramatically boosts frame rates on large servers.",
+          "Community & Clans: Guilds and clans offer team gear support, coordinated events, and competitive matches."
+        ]
+      },
+      free2play: {
+        title: "Top Free2Play Competitive Games",
+        content: "Free-to-play gaming has become a cornerstone of modern gaming, allowing players worldwide to compete on equal footing without upfront costs. Top titles feature regular seasonal content, balanced competitive matchmaking, and cross-platform support.",
+        highlights: [
+          "Tactical & MOBAs: High-skill competitive games like League of Legends, Valorant, and Counter-Strike 2.",
+          "Battle Royale: Massive multiplayer survival titles such as Apex Legends and Fortnite.",
+          "Accessibility: Optimized graphics engines designed to run smoothly across a wide range of hardware."
+        ]
+      },
+      recommendations: {
+        title: "Curated Game Recommendations",
+        content: "Whether you enjoy deep story-driven single-player campaigns or fast-paced cooperative games, there are unforgettable gaming experiences across every genre.",
+        highlights: [
+          "Indie Classics: Hollow Knight, Celeste, Hades, and Terraria offer incredible gameplay and art.",
+          "Open World RPGs: Elden Ring, The Witcher 3, and Red Dead Redemption 2 deliver massive immersive worlds.",
+          "Co-Op Favorites: It Takes Two, Deep Rock Galactic, and Portal 2 for playing with friends."
+        ]
+      },
+      performance: {
+        title: "PC Performance & FPS Optimization",
+        content: "Optimizing your PC settings ensures low input latency and maximum frame rates during competitive gameplay, even on budget or legacy systems.",
+        highlights: [
+          "Graphics Tweaks: Adjusting configuration files (`game.cfg`), enabling API modes (DirectX 9/11/12), and lowering shadow quality.",
+          "Driver Management: Keeping GPU drivers updated and closing background processes.",
+          "Monitor Settings: High refresh rate displays (144Hz+) paired with low latency settings provide a clear competitive edge."
+        ]
+      },
+      esports: {
+        title: "Esports & Competitive Gaming",
+        content: "Esports turns competitive gaming into a global spectator sport with professional leagues, stadium tournaments, and millions in prize pools.",
+        highlights: [
+          "Mechanics & Aim: Developing muscle memory, crosshair placement, and game sense.",
+          "Team Synergy: Communication, role specialization, and objective control in squad games.",
+          "Global Tournaments: World Championship events attracting millions of viewers worldwide."
+        ]
+      },
+      modding: {
+        title: "Game Modding & Development",
+        content: "Modding allows players to transform their favorite games by adding custom content, overhauled textures, new storylines, and total conversion game modes.",
+        highlights: [
+          "Resource Packs: Custom texture and sound packs tailored for PvP or aesthetic builds.",
+          "Modding Frameworks: Forge, Fabric, and Nexus Mods ecosystems supporting active developer communities.",
+          "Game Engines: Unity and Unreal Engine empowering indie creators to build their own games."
+        ]
+      }
+    };
+
+    // Gaming Facts Database
+    const facts = [
+      "Minecraft is the best-selling video game of all time, with over 300 million copies sold worldwide.",
+      "The highest possible score in a classic game of Pac-Man is 3,333,360 points, known as a 'Perfect Game'.",
+      "The iconic Konami Code (Up, Up, Down, Down, Left, Right, Left, Right, B, A) was first created in 1986 during the development of Gradius.",
+      "In original Arcade Space Invaders, the enemies sped up because the hardware could process them faster as fewer sprites remained on screen.",
+      "League of Legends was first officially released in October 2009 and grew into one of the world's largest esports.",
+      "The first video game ever created is widely considered to be 'Tennis for Two', developed by physicist William Higinbotham in 1958."
+    ];
+
+    // Function to open the detailed Modal
+    function openArticle(key) {
+      const data = articles[key];
+      if (!data) return;
+
+      document.getElementById('modalTitle').innerText = data.title;
+      
+      let htmlContent = `<p>${data.content}</p>`;
+      if (data.highlights && data.highlights.length > 0) {
+        htmlContent += `<ul>`;
+        data.highlights.forEach(item => {
+          htmlContent += `<li><strong>Key Note:</strong> ${item}</li>`;
+        });
+        htmlContent += `</ul>`;
+      }
+
+      document.getElementById('modalBody').innerHTML = htmlContent;
+      document.getElementById('articleModal').style.display = 'flex';
+    }
+
+    // Function to close the Modal
+    function closeArticle() {
+      document.getElementById('articleModal').style.display = 'none';
+    }
+
+    // Close Modal when clicking outside the content card
+    function closeModalOnOutsideClick(e) {
+      if (e.target.id === 'articleModal') {
+        closeArticle();
+      }
+    }
+
+    // Function to display a random gaming fact
+    function getRandomFact() {
+      const randomIndex = Math.floor(Math.random() * facts.length);
+      document.getElementById('factDisplay').innerText = facts[randomIndex];
+    }
+  </script>
+</body>
+</html>

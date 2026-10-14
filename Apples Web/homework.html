@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>area</title>
+
+    <style>
+        body {
+            display: grid;
+
+            grid-template-columns: 1fr 5fr 2fr ;
+            grid-template-rows: 100px 600px 200px;
+            grid-template-areas:
+                "header header header"
+                "aside main ads"
+                "footer footer footer";
+
+            
+
+        }
+
+        header {
+            background-color: blue;
+            grid-area: header;
+        }
+
+        main {
+            background-color: red;
+            grid-area: main;
+        }
+
+        footer {
+            background-color: yellow;
+            grid-area: footer;
+        }
+        ads {
+            background-color: rgb(2, 0, 22);
+            grid-area: ads;
+            color: white
+    
+        }
+
+        aside {
+            background-color: orange;
+            grid-area: aside;
+            /* width: 100px; */
+        }
+    </style>
+
+</head>
+
+<body>
+    <header>
+        <nav>
+            header + nav
+        </nav>
+    </header>
+
+     <ads>
+                ads
+     </ads>
+    <aside>
+        side bar
+    </aside>
+
+    <main>
+        main
+    </main>
+
+
+    <footer>
+        footer
+    </footer>
+
+</body>
+
+</html>

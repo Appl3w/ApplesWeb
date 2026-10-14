@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Culture - Apple's Web</title>
+  <style>
+    /* Global Reset & Base Styling */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: #ffffff;
+      color: #111111;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      line-height: 1.6;
+      padding: 20px;
+    }
+
+    /* Outer Wrapper - Matches Apple's Web Layout */
+    .page-wrapper {
+      max-width: 980px;
+      margin: 0 auto;
+    }
+
+    /* Top Breadcrumb Header */
+    header {
+      padding: 20px 0 15px 0;
+      border-bottom: 1px solid #e0e0e0;
+      margin-bottom: 25px;
+    }
+
+    .nav-breadcrumb {
+      font-size: 0.9rem;
+      margin-bottom: 8px;
+    }
+
+    .nav-breadcrumb a {
+      color: #2563eb;
+      text-decoration: none;
+    }
+
+    .nav-breadcrumb a:hover {
+      text-decoration: underline;
+    }
+
+    h1.site-title {
+      font-family: "Times New Roman", Times, Georgia, serif;
+      font-size: 2.8rem;
+      font-weight: normal;
+      color: #000000;
+      letter-spacing: -0.5px;
+    }
+
+    .subtitle {
+      font-size: 0.95rem;
+      color: #555555;
+      margin-top: 2px;
+    }
+
+    /* Welcome / Feature Callout Box */
+    .welcome-box {
+      background-color: #f7f7f8;
+      border: 1px solid #e0e0e0;
+      padding: 28px 32px;
+      margin-bottom: 35px;
+    }
+
+    .welcome-box h2 {
+      font-family: "Times New Roman", Times, Georgia, serif;
+      font-size: 1.8rem;
+      font-weight: normal;
+      margin-bottom: 12px;
+      color: #111111;
+    }
+
+    .welcome-box p {
+      font-size: 1rem;
+      color: #333333;
+      margin-bottom: 16px;
+    }
+
+    .welcome-box .badge {
+      display: inline-block;
+      font-size: 0.85rem;
+      color: #444444;
+      background-color: #e8e8ed;
+      padding: 3px 10px;
+      border-radius: 3px;
+      margin-top: 5px;
+    }
+
+    /* 3-Column Grid Layout for Culture Topics */
+    .category-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 30px 25px;
+      margin-bottom: 40px;
+    }
+
+    @media (max-width: 800px) {
+      .category-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width: 550px) {
+      .category-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .category-card {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .category-card h3 {
+      font-family: "Times New Roman", Times, Georgia, serif;
+      font-size: 1.5rem;
+      font-weight: normal;
+      color: #000000;
+      padding-bottom: 8px;
+      border-bottom: 1px solid #e0e0e0;
+      margin-bottom: 12px;
+    }
+
+    .category-card p {
+      font-size: 0.92rem;
+      color: #444444;
+      line-height: 1.5;
+      margin-bottom: 14px;
+      flex-grow: 1;
+    }
+
+    .link-btn {
+      color: #2563eb;
+      text-decoration: none;
+      font-size: 0.95rem;
+      display: inline-block;
+      font-weight: 500;
+      cursor: pointer;
+      background: none;
+      border: none;
+      padding: 0;
+      text-align: left;
+    }
+
+    .link-btn:hover {
+      text-decoration: underline;
+    }
+
+    /* Interactive Cultural Fact Generator */
+    .fact-section {
+      background-color: #ffffff;
+      border: 1px solid #e0e0e0;
+      padding: 24px 28px;
+      margin-bottom: 40px;
+    }
+
+    .fact-section h3 {
+      font-family: "Times New Roman", Times, Georgia, serif;
+      font-size: 1.4rem;
+      font-weight: normal;
+      margin-bottom: 10px;
+    }
+
+    .fact-display {
+      font-size: 0.98rem;
+      color: #333333;
+      padding: 12px;
+      background-color: #f9f9fa;
+      border-left: 3px solid #2563eb;
+      margin-bottom: 15px;
+      min-height: 50px;
+    }
+
+    .action-btn {
+      background-color: #ffffff;
+      border: 1px solid #cccccc;
+      padding: 7px 15px;
+      font-size: 0.88rem;
+      color: #222222;
+      cursor: pointer;
+      transition: background-color 0.15s ease;
+    }
+
+    .action-btn:hover {
+      background-color: #f0f0f0;
+      border-color: #bbbbbb;
+    }
+
+    /* Modal / Pop-up Overlay */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.4);
+      z-index: 1000;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+    }
+
+    .modal-card {
+      background-color: #ffffff;
+      border: 1px solid #cccccc;
+      max-width: 650px;
+      width: 100%;
+      max-height: 85vh;
+      overflow-y: auto;
+      padding: 30px;
+      position: relative;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+    }
+
+    .modal-close {
+      position: absolute;
+      top: 15px;
+      right: 20px;
+      font-size: 1.5rem;
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: #666666;
+    }
+
+    .modal-close:hover {
+      color: #000000;
+    }
+
+    .modal-card h2 {
+      font-family: "Times New Roman", Times, Georgia, serif;
+      font-size: 2rem;
+      font-weight: normal;
+      margin-bottom: 15px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid #e0e0e0;
+    }
+
+    .modal-card p {
+      font-size: 0.98rem;
+      color: #333333;
+      margin-bottom: 14px;
+      line-height: 1.6;
+    }
+
+    .modal-card ul {
+      margin-left: 20px;
+      margin-bottom: 20px;
+    }
+
+    .modal-card li {
+      font-size: 0.95rem;
+      color: #444444;
+      margin-bottom: 6px;
+    }
+
+    footer {
+      border-top: 1px solid #e0e0e0;
+      padding-top: 15px;
+      padding-bottom: 25px;
+      font-size: 0.85rem;
+      color: #666666;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="page-wrapper">
+    <!-- Header with Breadcrumb Navigation -->
+    <header>
+      <div class="nav-breadcrumb">
+        <a href="index.html">&larr; Back to Main Page</a> / Culture
+      </div>
+      <h1 class="site-title">Apple's Web</h1>
+      <p class="subtitle">Culture Subpage — Explore Global Arts, Heritage &amp; Traditions</p>
+    </header>
+
+    <!-- Welcome Section -->
+    <section class="welcome-box">
+      <h2>Welcome to Culture</h2>
+      <p>Explore art, music, literature, languages, traditions and cultures from around the world. Select any category below to discover global heritage and human expression.</p>
+      <span class="badge">Culture Hub &bull; 6 Core Domains</span>
+    </section>
+
+    <!-- Culture Categories Grid (3x2) -->
+    <section class="category-grid">
+
+      <!-- 1. Fine Arts & Visual Arts -->
+      <article class="category-card">
+        <h3>Visual Arts</h3>
+        <p>Explore painting, sculpture, architecture, calligraphy, and visual art movements from Renaissance masterpieces to modern art.</p>
+        <button class="link-btn" onclick="openArticle('art')">Explore Visual Arts &rarr;</button>
+      </article>
+
+      <!-- 2. Music & Performing Arts -->
+      <article class="category-card">
+        <h3>Music &amp; Performance</h3>
+        <p>Discover classical compositions, traditional folk instruments, global musical traditions, theater, and world rhythms.</p>
+        <button class="link-btn" onclick="openArticle('music')">Explore Music &rarr;</button>
+      </article>
+
+      <!-- 3. Literature & Poetry -->
+      <article class="category-card">
+        <h3>Literature</h3>
+        <p>Delve into classical epic poetry, world novels, storytelling traditions, philosophy, and renowned international authors.</p>
+        <button class="link-btn" onclick="openArticle('literature')">Explore Literature &rarr;</button>
+      </article>
+
+      <!-- 4. Languages & Linguistics -->
+      <article class="category-card">
+        <h3>Languages</h3>
+        <p>Examine language families, scripts, grammar structures, etymology, and the evolution of global human communication.</p>
+        <button class="link-btn" onclick="openArticle('languages')">Explore Languages &rarr;</button>
+      </article>
+
+      <!-- 5. Traditions & Folklore -->
+      <article class="category-card">
+        <h3>Traditions</h3>
+        <p>Learn about global cultural festivals, traditional attire, regional heritage, mythologies, and historical customs.</p>
+        <button class="link-btn" onclick="openArticle('traditions')">Explore Traditions &rarr;</button>
+      </article>
+
+      <!-- 6. World Cuisine & Heritage -->
+      <article class="category-card">
+        <h3>World Heritage</h3>
+        <p>Study culinary history, UNESCO World Heritage sites, architectural monuments, and shared cultural landmarks across continents.</p>
+        <button class="link-btn" onclick="openArticle('heritage')">Explore World Heritage &rarr;</button>
+      </article>
+
+    </section>
+
+    <!-- Interactive Cultural Fact Generator -->
+    <section class="fact-section">
+      <h3>Cultural Fact of the Day</h3>
+      <div class="fact-display" id="factDisplay">
+        Click the button below to discover a fascinating fact about world culture!
+      </div>
+      <button class="action-btn" onclick="getRandomFact()">Get Another Cultural Fact</button>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+      &copy; 2026 Apple's Web &mdash; Culture Department
+    </footer>
+  </div>
+
+  <!-- Interactive Pop-up Modal -->
+  <div class="modal-overlay" id="articleModal" onclick="closeModalOnOutsideClick(event)">
+    <div class="modal-card">
+      <button class="modal-close" onclick="closeArticle()">&times;</button>
+      <h2 id="modalTitle">Article Title</h2>
+      <div id="modalBody">
+        <!-- Content inserted dynamically via JS -->
+      </div>
+    </div>
+  </div>
+
+  <!-- Interactive JavaScript -->
+  <script>
+    // Culture Articles Database
+    const articles = {
+      art: {
+        title: "Visual Arts & Architecture",
+        content: "Visual arts encompass human creativity expressed through mediums like painting, sculpture, and architectural design. From ancient cave art and classical Islamic calligraphy to Impressionism and modern digital art, visual heritage reflects human history.",
+        highlights: [
+          "Classical Movements: High Renaissance realism, Baroque contrast, and Impressionism light capture.",
+          "Architectural Wonders: Gothic cathedrals, Islamic geometric archways, and traditional Japanese timber joinery.",
+          "Calligraphy & Design: Elaborate manuscript arts cultivated across Asian and Middle Eastern heritage."
+        ]
+      },
+      music: {
+        title: "Music & Performing Arts",
+        content: "Music is a universal form of human expression spanning traditional acoustic instruments, complex symphonic orchestrations, and regional folk rhythms passed down across generations.",
+        highlights: [
+          "Classical & Orchestral: Complex harmony and notation structures perfected over centuries.",
+          "Folk & Regional Rhythms: Traditional stringed instruments like the Oud, Sitar, and Lute.",
+          "Performance & Theater: Dramatic storytelling through opera, ballet, and traditional mask dance."
+        ]
+      },
+      literature: {
+        title: "World Literature & Literary Works",
+        content: "Literature records human thought, philosophy, and narrative storytelling. Epic poems, classic novels, and philosophical treatises provide deep insight into diverse cultural perspectives.",
+        highlights: [
+          "Epic Traditions: Timeless narrative epics from ancient Greece, Persia, India, and Mesopotamia.",
+          "Poetry & Prose: Strict rhythmic forms like Arabic Qasidas, Japanese Haikus, and European Sonnets.",
+          "Modern World Fiction: Award-winning novels exploring identity, history, and human emotion."
+        ]
+      },
+      languages: {
+        title: "Languages & Global Linguistics",
+        content: "There are over 7,000 spoken languages in the world today, grouped into major linguistic families. Language shapes how cultures view the world and preserves historical heritage through idiom and grammar.",
+        highlights: [
+          "Major Language Families: Indo-European, Sino-Tibetan, Afroasiatic, and Niger-Congo.",
+          "Writing Scripts: Phonetic alphabets, abjads (like Arabic script), and logographic characters.",
+          "Etymology & Evolution: Tracing how words migrate across cultures through trade and history."
+        ]
+      },
+      traditions: {
+        title: "Traditions, Customs & Folklore",
+        content: "Traditions form the backbone of community identity, expressed through annual festivals, seasonal harvest celebrations, traditional garments, and rich folklore passed between generations.",
+        highlights: [
+          "Cultural Festivals: Worldwide celebrations honoring harvests, new years, and seasonal changes.",
+          "Folklore & Mythology: Moral tales, legendary creatures, and heroic sagas unique to each culture.",
+          "Social Customs: Formal tea ceremonies, hospitality rituals, and traditional craftsmanship."
+        ]
+      },
+      heritage: {
+        title: "World Culinary Heritage & Landmarks",
+        content: "Cuisine and monuments represent tangible human heritage. Traditional cooking techniques, spice routes, and UNESCO World Heritage sites preserve global history for future generations.",
+        highlights: [
+          "Culinary Traditions: The historical impact of the spice trade on global flavor palettes.",
+          "Historical Monuments: Ancient sites like the Great Wall, Taj Mahal, Colosseum, and Machu Picchu.",
+          "UNESCO Protection: Preserving both physical landmarks and intangible cultural traditions."
+        ]
+      }
+    };
+
+    // Cultural Facts Database
+    const facts = [
+      "There are currently over 7,000 living languages spoken worldwide, though more than half are concentrated in just eight countries.",
+      "The Epic of Gilgamesh, written in ancient Mesopotamia around 2100 BCE, is widely considered the oldest surviving literary masterpiece.",
+      "The Louvre Museum in Paris is the largest art museum in the world, housing over 380,000 objects and 35,000 works of art.",
+      "The Arabic language has over 11 words for 'love', each describing a distinct stage or depth of affection.",
+      "UNESCO currently recognizes over 1,100 World Heritage sites across 167 countries.",
+      "The world's oldest known musical instrument is a bone flute crafted over 40,000 years ago during the Ice Age."
+    ];
+
+    // Function to open the detailed Modal
+    function openArticle(key) {
+      const data = articles[key];
+      if (!data) return;
+
+      document.getElementById('modalTitle').innerText = data.title;
+      
+      let htmlContent = `<p>${data.content}</p>`;
+      if (data.highlights && data.highlights.length > 0) {
+        htmlContent += `<ul>`;
+        data.highlights.forEach(item => {
+          htmlContent += `<li><strong>Key Note:</strong> ${item}</li>`;
+        });
+        htmlContent += `</ul>`;
+      }
+
+      document.getElementById('modalBody').innerHTML = htmlContent;
+      document.getElementById('articleModal').style.display = 'flex';
+    }
+
+    // Function to close the Modal
+    function closeArticle() {
+      document.getElementById('articleModal').style.display = 'none';
+    }
+
+    // Close Modal when clicking outside the content card
+    function closeModalOnOutsideClick(e) {
+      if (e.target.id === 'articleModal') {
+        closeArticle();
+      }
+    }
+
+    // Function to display a random cultural fact
+    function getRandomFact() {
+      const randomIndex = Math.floor(Math.random() * facts.length);
+      document.getElementById('factDisplay').innerText = facts[randomIndex];
+    }
+  </script>
+</body>
+</html>

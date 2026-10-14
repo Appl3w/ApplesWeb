@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Technology - Apple's Web</title>
+  <style>
+    /* Global Reset & Base Styling */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: #ffffff;
+      color: #111111;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      line-height: 1.6;
+      padding: 20px;
+    }
+
+    /* Outer Wrapper - Matches Apple's Web Layout */
+    .page-wrapper {
+      max-width: 980px;
+      margin: 0 auto;
+    }
+
+    /* Top Breadcrumb Header */
+    header {
+      padding: 20px 0 15px 0;
+      border-bottom: 1px solid #e0e0e0;
+      margin-bottom: 25px;
+    }
+
+    .nav-breadcrumb {
+      font-size: 0.9rem;
+      margin-bottom: 8px;
+    }
+
+    .nav-breadcrumb a {
+      color: #2563eb;
+      text-decoration: none;
+    }
+
+    .nav-breadcrumb a:hover {
+      text-decoration: underline;
+    }
+
+    h1.site-title {
+      font-family: "Times New Roman", Times, Georgia, serif;
+      font-size: 2.8rem;
+      font-weight: normal;
+      color: #000000;
+      letter-spacing: -0.5px;
+    }
+
+    .subtitle {
+      font-size: 0.95rem;
+      color: #555555;
+      margin-top: 2px;
+    }
+
+    /* Welcome / Feature Callout Box */
+    .welcome-box {
+      background-color: #f7f7f8;
+      border: 1px solid #e0e0e0;
+      padding: 28px 32px;
+      margin-bottom: 35px;
+    }
+
+    .welcome-box h2 {
+      font-family: "Times New Roman", Times, Georgia, serif;
+      font-size: 1.8rem;
+      font-weight: normal;
+      margin-bottom: 12px;
+      color: #111111;
+    }
+
+    .welcome-box p {
+      font-size: 1rem;
+      color: #333333;
+      margin-bottom: 16px;
+    }
+
+    .welcome-box .badge {
+      display: inline-block;
+      font-size: 0.85rem;
+      color: #444444;
+      background-color: #e8e8ed;
+      padding: 3px 10px;
+      border-radius: 3px;
+      margin-top: 5px;
+    }
+
+    /* 3-Column Grid Layout for Tech Topics */
+    .category-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 30px 25px;
+      margin-bottom: 40px;
+    }
+
+    @media (max-width: 800px) {
+      .category-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width: 550px) {
+      .category-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .category-card {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .category-card h3 {
+      font-family: "Times New Roman", Times, Georgia, serif;
+      font-size: 1.5rem;
+      font-weight: normal;
+      color: #000000;
+      padding-bottom: 8px;
+      border-bottom: 1px solid #e0e0e0;
+      margin-bottom: 12px;
+    }
+
+    .category-card p {
+      font-size: 0.92rem;
+      color: #444444;
+      line-height: 1.5;
+      margin-bottom: 14px;
+      flex-grow: 1;
+    }
+
+    .link-btn {
+      color: #2563eb;
+      text-decoration: none;
+      font-size: 0.95rem;
+      display: inline-block;
+      font-weight: 500;
+      cursor: pointer;
+      background: none;
+      border: none;
+      padding: 0;
+      text-align: left;
+    }
+
+    .link-btn:hover {
+      text-decoration: underline;
+    }
+
+    /* Interactive Tech Fact Generator */
+    .fact-section {
+      background-color: #ffffff;
+      border: 1px solid #e0e0e0;
+      padding: 24px 28px;
+      margin-bottom: 40px;
+    }
+
+    .fact-section h3 {
+      font-family: "Times New Roman", Times, Georgia, serif;
+      font-size: 1.4rem;
+      font-weight: normal;
+      margin-bottom: 10px;
+    }
+
+    .fact-display {
+      font-size: 0.98rem;
+      color: #333333;
+      padding: 12px;
+      background-color: #f9f9fa;
+      border-left: 3px solid #2563eb;
+      margin-bottom: 15px;
+      min-height: 50px;
+    }
+
+    .action-btn {
+      background-color: #ffffff;
+      border: 1px solid #cccccc;
+      padding: 7px 15px;
+      font-size: 0.88rem;
+      color: #222222;
+      cursor: pointer;
+      transition: background-color 0.15s ease;
+    }
+
+    .action-btn:hover {
+      background-color: #f0f0f0;
+      border-color: #bbbbbb;
+    }
+
+    /* Modal / Pop-up Overlay */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.4);
+      z-index: 1000;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+    }
+
+    .modal-card {
+      background-color: #ffffff;
+      border: 1px solid #cccccc;
+      max-width: 650px;
+      width: 100%;
+      max-height: 85vh;
+      overflow-y: auto;
+      padding: 30px;
+      position: relative;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+    }
+
+    .modal-close {
+      position: absolute;
+      top: 15px;
+      right: 20px;
+      font-size: 1.5rem;
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: #666666;
+    }
+
+    .modal-close:hover {
+      color: #000000;
+    }
+
+    .modal-card h2 {
+      font-family: "Times New Roman", Times, Georgia, serif;
+      font-size: 2rem;
+      font-weight: normal;
+      margin-bottom: 15px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid #e0e0e0;
+    }
+
+    .modal-card p {
+      font-size: 0.98rem;
+      color: #333333;
+      margin-bottom: 14px;
+      line-height: 1.6;
+    }
+
+    .modal-card ul {
+      margin-left: 20px;
+      margin-bottom: 20px;
+    }
+
+    .modal-card li {
+      font-size: 0.95rem;
+      color: #444444;
+      margin-bottom: 6px;
+    }
+
+    footer {
+      border-top: 1px solid #e0e0e0;
+      padding-top: 15px;
+      padding-bottom: 25px;
+      font-size: 0.85rem;
+      color: #666666;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="page-wrapper">
+    <!-- Header with Breadcrumb Navigation -->
+    <header>
+      <div class="nav-breadcrumb">
+        <a href="index.html">&larr; Back to Main Page</a> / Technology
+      </div>
+      <h1 class="site-title">Apple's Web</h1>
+      <p class="subtitle">Technology Subpage — Explore Innovation &amp; Digital Systems</p>
+    </header>
+
+    <!-- Welcome Section -->
+    <section class="welcome-box">
+      <h2>Welcome to Technology</h2>
+      <p>Learn about computers, programming, artificial intelligence, engineering and modern technology. Select any domain below to explore key concepts and tools.</p>
+      <span class="badge">Tech Archives &bull; 6 Core Domains</span>
+    </section>
+
+    <!-- Technology Categories Grid (3x2) -->
+    <section class="category-grid">
+
+      <!-- 1. Computers & Hardware -->
+      <article class="category-card">
+        <h3>Computers</h3>
+        <p>Explore microprocessors, memory architectures, GPU performance, storage systems, and foundational hardware design.</p>
+        <button class="link-btn" onclick="openArticle('computers')">Explore Computers &rarr;</button>
+      </article>
+
+      <!-- 2. Programming & Software -->
+      <article class="category-card">
+        <h3>Programming</h3>
+        <p>Learn software development, web code (HTML/CSS/JS), compilers, algorithms, and application architecture.</p>
+        <button class="link-btn" onclick="openArticle('programming')">Explore Programming &rarr;</button>
+      </article>
+
+      <!-- 3. Artificial Intelligence -->
+      <article class="category-card">
+        <h3>AI &amp; ML</h3>
+        <p>Discover neural networks, machine learning models, computer vision, natural language processing, and robotics.</p>
+        <button class="link-btn" onclick="openArticle('ai')">Explore AI &amp; ML &rarr;</button>
+      </article>
+
+      <!-- 4. Engineering -->
+      <article class="category-card">
+        <h3>Engineering</h3>
+        <p>Examine electrical circuits, mechanical design, structural systems, automation, and modern infrastructure.</p>
+        <button class="link-btn" onclick="openArticle('engineering')">Explore Engineering &rarr;</button>
+      </article>
+
+      <!-- 5. Cybersecurity & Networking -->
+      <article class="category-card">
+        <h3>Networking</h3>
+        <p>Understand the global Internet structure, TCP/IP protocols, cloud infrastructure, and digital cybersecurity defense.</p>
+        <button class="link-btn" onclick="openArticle('networking')">Explore Networking &rarr;</button>
+      </article>
+
+      <!-- 6. Modern Innovation -->
+      <article class="category-card">
+        <h3>Modern Tech</h3>
+        <p>Study emerging technologies including quantum computing, renewable energy storage, biotech, and autonomous vehicles.</p>
+        <button class="link-btn" onclick="openArticle('modern_tech')">Explore Modern Tech &rarr;</button>
+      </article>
+
+    </section>
+
+    <!-- Interactive Tech Fact Generator -->
+    <section class="fact-section">
+      <h3>Tech Fact of the Day</h3>
+      <div class="fact-display" id="factDisplay">
+        Click the button below to discover a fascinating fact from technology!
+      </div>
+      <button class="action-btn" onclick="getRandomFact()">Get Another Tech Fact</button>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+      &copy; 2026 Apple's Web &mdash; Technology Department
+    </footer>
+  </div>
+
+  <!-- Interactive Pop-up Modal -->
+  <div class="modal-overlay" id="articleModal" onclick="closeModalOnOutsideClick(event)">
+    <div class="modal-card">
+      <button class="modal-close" onclick="closeArticle()">&times;</button>
+      <h2 id="modalTitle">Article Title</h2>
+      <div id="modalBody">
+        <!-- Content inserted dynamically via JS -->
+      </div>
+    </div>
+  </div>
+
+  <!-- Interactive JavaScript -->
+  <script>
+    // Technology Articles Database
+    const articles = {
+      computers: {
+        title: "Computers & Computer Hardware",
+        content: "Computer hardware consists of physical components that process data electronically. Central Processing Units (CPUs) execute binary logic commands, while GPUs handle parallel graphics and matrix math operations.",
+        highlights: [
+          "CPU & GPU: Clock speeds, multi-core processing, and thermal design power.",
+          "RAM & Storage: Ultra-fast volatile memory working alongside NVMe SSD drives.",
+          "Architecture: x86 and ARM chip architectures powering PCs and mobile devices."
+        ]
+      },
+      programming: {
+        title: "Programming & Software Engineering",
+        content: "Programming is the act of instructing a computer using specialized languages. From low-level languages like C to web technologies like HTML, CSS, and JavaScript, software controls modern digital infrastructure.",
+        highlights: [
+          "Web Technologies: HTML5 structures content, CSS designs style, and JS adds logic.",
+          "Data Structures: Arrays, stacks, hash tables, and trees for data management.",
+          "Software Paradigms: Object-oriented, functional, and procedural code structure."
+        ]
+      },
+      ai: {
+        title: "Artificial Intelligence & Machine Learning",
+        content: "Artificial Intelligence simulates human cognitive tasks using mathematical algorithms. Machine Learning trains algorithms on vast datasets to recognize patterns, make predictions, and generate content autonomously.",
+        highlights: [
+          "Neural Networks: Layered mathematical nodes inspired by human brain connections.",
+          "Large Language Models: AI trained on text to comprehend and synthesize language.",
+          "Computer Vision: Enables machines to interpret images and real-time video streams."
+        ]
+      },
+      engineering: {
+        title: "Engineering & Applied Physics",
+        content: "Engineering applies scientific principles to design machinery, electronics, materials, and infrastructure. Electrical, mechanical, and civil engineering unite to build modern factories, power grids, and transit networks.",
+        highlights: [
+          "Circuit Design: Ohm's Law, semiconductors, microcontrollers, and PCB layouts.",
+          "CAD Modeling: Computer-Aided Design used for precision mechanical prototyping.",
+          "Automation: Robotics, sensors, and feedback control loops powering factories."
+        ]
+      },
+      networking: {
+        title: "Networking & Cybersecurity",
+        content: "Computer networking connects devices worldwide via fiber-optic cables, wireless routers, and satellites. Cybersecurity protects data transmitted across these networks using encryption and defensive protocols.",
+        highlights: [
+          "TCP/IP Stack: The core set of communications protocols powering the internet.",
+          "Cloud Computing: Distributed data centers serving computing power on demand.",
+          "Cyber Defense: Firewalls, public key cryptography, and secure authentication."
+        ]
+      },
+      modern_tech: {
+        title: "Modern Tech & Emerging Frontiers",
+        content: "Emerging technological developments promise to revolutionize human capabilities. Quantum computing, battery technology, and autonomous transport push the boundaries of physics and computing speed.",
+        highlights: [
+          "Quantum Computing: Harnesses qubits to process complex probabilistic math.",
+          "Energy Storage: Advanced solid-state and lithium chemistry for electric power.",
+          "Autonomous Systems: Self-driving algorithms combining radar, LiDAR, and AI."
+        ]
+      }
+    };
+
+    // Tech Facts Database
+    const facts = [
+      "The first computer bug was an actual physical moth found trapped inside the Harvard Mark II computer in 1947.",
+      "Over 99% of all international internet data traffic travels through underwater fiber-optic submarine cables.",
+      "The QWERTY keyboard layout was originally designed in the 1870s for mechanical typewriters to prevent key jam errors.",
+      "The Apollo 11 Guidance Computer that landed humans on the Moon operated with only 4 KB of RAM.",
+      "Python was named after the British comedy series 'Monty Python's Flying Circus', not the snake.",
+      "Transistors inside modern microchips are so small that billions can fit onto a single chip smaller than a fingernail."
+    ];
+
+    // Function to open the detailed Modal
+    function openArticle(key) {
+      const data = articles[key];
+      if (!data) return;
+
+      document.getElementById('modalTitle').innerText = data.title;
+      
+      let htmlContent = `<p>${data.content}</p>`;
+      if (data.highlights && data.highlights.length > 0) {
+        htmlContent += `<ul>`;
+        data.highlights.forEach(item => {
+          htmlContent += `<li><strong>Key Note:</strong> ${item}</li>`;
+        });
+        htmlContent += `</ul>`;
+      }
+
+      document.getElementById('modalBody').innerHTML = htmlContent;
+      document.getElementById('articleModal').style.display = 'flex';
+    }
+
+    // Function to close the Modal
+    function closeArticle() {
+      document.getElementById('articleModal').style.display = 'none';
+    }
+
+    // Close Modal when clicking outside the content card
+    function closeModalOnOutsideClick(e) {
+      if (e.target.id === 'articleModal') {
+        closeArticle();
+      }
+    }
+
+    // Function to display a random tech fact
+    function getRandomFact() {
+      const randomIndex = Math.floor(Math.random() * facts.length);
+      document.getElementById('factDisplay').innerText = facts[randomIndex];
+    }
+  </script>
+</body>
+</html>

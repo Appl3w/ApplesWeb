@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <script>
+    // Inline script prevents theme flashing on page load
+    const savedTheme = localStorage.getItem("theme");
+    const systemDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+    if (savedTheme === "dark" || (!savedTheme && systemDark)) {
+      document.documentElement.setAttribute("data-theme", "dark");
+    }
+  </script>
+
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Apple's Web</title>
+
+  <link rel="icon" type="image/png" href="/images/log-dark.png" media="(prefers-color-scheme: dark)">
+
+
+  <link rel="icon" type="image/png" href="/images/log.png" media="(prefers-color-scheme: light)">
+</head>
+</head>
+  <style>
+    /* CSS Variables for Themes */
+    :root {
+      --bg-color: #ffffff;
+      --text-main: #202122;
+      --text-muted: #54595d;
+      --card-bg: #f8f9fa;
+      --border-color: #c8ccd1;
+      --dropdown-border: #a2a9b1;
+      --link-color: #36c;
+      --btn-bg: #eaecf0;
+      --btn-hover: #d8dce0;
+      --search-input-bg: #ffffff;
+      --shadow-color: rgba(0, 0, 0, 0.2);
+    }
+
+    [data-theme="dark"] {
+      --bg-color: #1a1a1a;
+      --text-main: #e0e0e0;
+      --text-muted: #b0b0b0;
+      --card-bg: #262626;
+      --border-color: #404040;
+      --dropdown-border: #555555;
+      --link-color: #66b2ff;
+      --btn-bg: #333333;
+      --btn-hover: #444444;
+      --search-input-bg: #2a2a2a;
+      --shadow-color: rgba(0, 0, 0, 0.6);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: Georgia, "Times New Roman", serif;
+      color: var(--text-main);
+      background: var(--bg-color);
+      transition: background-color 0.3s ease, color 0.3s ease;
+    }
+
+    #ap {
+      text-decoration: none;
+      color: rgb(255, 0, 0);
+    }
+
+    #ap:hover {
+      text-decoration: underline;
+      color: var(--link-color);
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: auto;
+      padding: 30px 25px;
+    }
+
+    /* Fixed Controls Header (Theme Button + Menu) */
+    .top-controls {
+      position: fixed;
+      top: 15px;
+      right: 20px;
+      z-index: 1000;
+      display: flex;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .icon-button {
+      width: 42px;
+      height: 42px;
+      border: 1px solid var(--border-color);
+      border-radius: 50%;
+      background: var(--btn-bg);
+      color: var(--text-main);
+      font-size: 20px;
+      line-height: 42px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.2s;
+    }
+
+    .icon-button:hover {
+      background: var(--btn-hover);
+    }
+
+    .menu-container {
+      position: relative;
+    }
+
+    .dropdown {
+      display: none;
+      position: absolute;
+      top: 50px;
+      right: 0;
+      width: 190px;
+      background: var(--bg-color);
+      border: 1px solid var(--dropdown-border);
+      box-shadow: 0 3px 10px var(--shadow-color);
+      font-family: Arial, sans-serif;
+    }
+
+    .dropdown.show {
+      display: block;
+    }
+
+    .dropdown a {
+      display: block;
+      padding: 12px 15px;
+      color: var(--link-color);
+      text-decoration: none;
+      font-size: 14px;
+    }
+
+    .dropdown a:hover {
+      background: var(--btn-bg);
+      text-decoration: underline;
+    }
+
+    header {
+      text-align: center;
+      padding: 20px 0 35px;
+    }
+
+    .logo {
+      font-size: 52px;
+      font-weight: normal;
+      margin-bottom: 5px;
+      color: var(--text-main);
+    }
+
+    .subtitle {
+      font-family: Arial, sans-serif;
+      font-size: 15px;
+      color: var(--text-muted);
+      letter-spacing: 1px;
+    }
+
+    .search {
+      display: flex;
+      max-width: 650px;
+      margin: 25px auto;
+      font-family: Arial, sans-serif;
+    }
+
+    .search input {
+      flex: 1;
+      padding: 12px;
+      border: 1px solid var(--dropdown-border);
+      background: var(--search-input-bg);
+      color: var(--text-main);
+      font-size: 16px;
+    }
+
+    .search button {
+      padding: 12px 22px;
+      border: 1px solid var(--border-color);
+      background: var(--btn-bg);
+      color: var(--text-main);
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    .search button:hover {
+      background: var(--btn-hover);
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 25px;
+      margin-top: 40px;
+    }
+
+    .card {
+      border-top: 1px solid var(--border-color);
+      padding: 20px;
+      min-height: 180px;
+      background: var(--card-bg);
+    }
+
+    .card h2 {
+      font-size: 22px;
+      font-weight: normal;
+      margin-top: 0;
+      border-bottom: 1px solid var(--border-color);
+      padding-bottom: 8px;
+      color: var(--text-main);
+    }
+
+    .card p {
+      font-family: Arial, sans-serif;
+      font-size: 14px;
+      line-height: 1.6;
+      color: var(--text-muted);
+    }
+
+    .card a {
+      color: var(--link-color);
+      text-decoration: none;
+      font-family: Arial, sans-serif;
+      font-size: 14px;
+    }
+
+    .card a:hover {
+      text-decoration: underline;
+    }
+
+    .featured {
+      margin-top: 35px;
+      border: 1px solid var(--border-color);
+      padding: 25px;
+      background: var(--card-bg);
+    }
+
+    .featured h2 {
+      margin-top: 0;
+      font-weight: normal;
+      color: var(--text-main);
+    }
+
+    .featured p {
+      font-family: Arial, sans-serif;
+      line-height: 1.7;
+      color: var(--text-main);
+    }
+
+    footer {
+      margin-top: 50px;
+      padding: 25px 0;
+      border-top: 1px solid var(--border-color);
+      text-align: center;
+      color: var(--text-muted);
+      font-family: Arial, sans-serif;
+      font-size: 13px;
+    }
+
+    .loga {
+      height: 100px;
+      padding-top: 20px;
+      padding-left: 20px;
+      padding-right: 20px;
+    }
+
+    @media (max-width: 750px) {
+      .grid {
+        grid-template-columns: 1fr;
+      }
+
+      .logo {
+        font-size: 40px;
+      }
+
+      .container {
+        padding: 20px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- Controls Container (Theme Switcher + Navigation Menu) -->
+  <div class="top-controls">
+    <button class="icon-button" id="themeToggle" aria-label="Toggle theme">
+      <span id="themeIcon">🌙</span>
+    </button>
+
+    <div class="menu-container">
+      <button class="icon-button" onclick="toggleMenu()" aria-label="Toggle menu">
+        ⋮
+      </button>
+
+      <div class="dropdown" id="dropdownMenu">
+        <a href="/Apple/Q!/index.html">Home</a>
+        <a href="about.html">About Apple's Web</a>
+        <a href="science.html">Science</a>
+        <a href="history.html">History</a>
+        <a href="technology.html">Technology</a>
+        <a href="gaming.html">Gaming</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Dynamic Logo (ID added for JS theme switching) -->
+  <img src="/images/log.png" alt="Apple's Web Logo" class="loga" id="siteLogo">
+
+  <div class="container">
+
+    <header>
+      <div class="logo">Apple's Web</div>
+      <div class="subtitle">All Sorts Of Information!</div>
+
+      <form class="search" action="/search" method="get">
+        <input type="search" name="q" placeholder="Search in Apple's Web">
+        <button type="submit">Search</button>
+      </form>
+    </header>
+
+    <section class="featured">
+      <h2>Welcome to Apple's Web</h2>
+      <p>Google But Apple Flavored 🍏</p>
+      <a href="about.html" id="ap">Read more about this project →</a>
+    </section>
+
+    <section class="grid">
+
+      <article class="card">
+        <h2>Science</h2>
+        <p>Discover information about physics, chemistry, biology, astronomy and the natural world.</p>
+        <a href="science.html">Browse Science →</a>
+      </article>
+
+      <article class="card">
+        <h2>History</h2>
+        <p>Explore historical events, civilizations, important people and major periods throughout history.</p>
+        <a href="history.html">Browse History →</a>
+      </article>
+
+      <article class="card">
+        <h2>Technology</h2>
+        <p>Learn about computers, programming, artificial intelligence, engineering and modern technology.</p>
+        <a href="technology.html">Browse Technology →</a>
+      </article>
+
+      <article class="card">
+        <h2>Gaming</h2>
+        <p>Explore Game Recommendations, Free2Play Games and Minecraft Multiplayer Servers.</p>
+        <a href="gaming.html">Browse Gaming →</a>
+      </article>
+
+      <article class="card">
+        <h2>Mathematics</h2>
+        <p>Learn about numbers, algebra, geometry, calculus, statistics and mathematical concepts.</p>
+        <a href="mathematics.html">Browse Mathematics →</a>
+      </article>
+
+      <article class="card">
+        <h2>Culture</h2>
+        <p>Explore art, music, literature, languages, traditions and cultures from around the world.</p>
+        <a href="culture.html">Browse Culture →</a>
+      </article>
+
+    </section>
+
+    <footer>
+      <p>Content is available for educational and informational purposes.</p>
+      <p>© 2026 Apple's Web™</p>
+    </footer>
+
+  </div>
+
+  
+  <script>
+    
+    function toggleMenu() {
+      const menu = document.getElementById("dropdownMenu");
+      menu.classList.toggle("show");
+    }
+
+   
+    const themeToggleBtn = document.getElementById("themeToggle");
+    const themeIcon = document.getElementById("themeIcon");
+    const siteLogo = document.getElementById("siteLogo");
+
+    function applyThemeAssets(theme) {
+     
+      themeIcon.textContent = theme === "dark" ? "☀️" : "🌙";
+
+      
+      if (siteLogo) {
+        siteLogo.src = theme === "dark" 
+          ? "/images/log-dark.png"  
+          : "/images/log.png";     
+      }
+    }
+
+    
+    const activeTheme = document.documentElement.getAttribute("data-theme") || "light";
+    applyThemeAssets(activeTheme);
+
+   
+    themeToggleBtn.addEventListener("click", () => {
+      const currentTheme = document.documentElement.getAttribute("data-theme");
+      const nextTheme = currentTheme === "dark" ? "light" : "dark";
+
+      document.documentElement.setAttribute("data-theme", nextTheme);
+      localStorage.setItem("theme", nextTheme);
+      applyThemeAssets(nextTheme);
+    });
+  </script>
+
+</body>
+</html>

@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>History - Apple's Web</title>
+  <style>
+    /* Global Reset & Base Styling */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: #ffffff;
+      color: #111111;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      line-height: 1.6;
+      padding: 20px;
+    }
+
+    /* Outer Wrapper - Matches Apple's Web Layout */
+    .page-wrapper {
+      max-width: 980px;
+      margin: 0 auto;
+    }
+
+    /* Top Breadcrumb Header */
+    header {
+      padding: 20px 0 15px 0;
+      border-bottom: 1px solid #e0e0e0;
+      margin-bottom: 25px;
+    }
+
+    .nav-breadcrumb {
+      font-size: 0.9rem;
+      margin-bottom: 8px;
+    }
+
+    .nav-breadcrumb a {
+      color: #2563eb;
+      text-decoration: none;
+    }
+
+    .nav-breadcrumb a:hover {
+      text-decoration: underline;
+    }
+
+    h1.site-title {
+      font-family: "Times New Roman", Times, Georgia, serif;
+      font-size: 2.8rem;
+      font-weight: normal;
+      color: #000000;
+      letter-spacing: -0.5px;
+    }
+
+    .subtitle {
+      font-size: 0.95rem;
+      color: #555555;
+      margin-top: 2px;
+    }
+
+    /* Welcome / Feature Callout Box */
+    .welcome-box {
+      background-color: #f7f7f8;
+      border: 1px solid #e0e0e0;
+      padding: 28px 32px;
+      margin-bottom: 35px;
+    }
+
+    .welcome-box h2 {
+      font-family: "Times New Roman", Times, Georgia, serif;
+      font-size: 1.8rem;
+      font-weight: normal;
+      margin-bottom: 12px;
+      color: #111111;
+    }
+
+    .welcome-box p {
+      font-size: 1rem;
+      color: #333333;
+      margin-bottom: 16px;
+    }
+
+    .welcome-box .badge {
+      display: inline-block;
+      font-size: 0.85rem;
+      color: #444444;
+      background-color: #e8e8ed;
+      padding: 3px 10px;
+      border-radius: 3px;
+      margin-top: 5px;
+    }
+
+    /* 3-Column Grid Layout for History Topics */
+    .category-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 30px 25px;
+      margin-bottom: 40px;
+    }
+
+    @media (max-width: 800px) {
+      .category-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width: 550px) {
+      .category-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .category-card {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .category-card h3 {
+      font-family: "Times New Roman", Times, Georgia, serif;
+      font-size: 1.5rem;
+      font-weight: normal;
+      color: #000000;
+      padding-bottom: 8px;
+      border-bottom: 1px solid #e0e0e0;
+      margin-bottom: 12px;
+    }
+
+    .category-card p {
+      font-size: 0.92rem;
+      color: #444444;
+      line-height: 1.5;
+      margin-bottom: 14px;
+      flex-grow: 1;
+    }
+
+    .link-btn {
+      color: #2563eb;
+      text-decoration: none;
+      font-size: 0.95rem;
+      display: inline-block;
+      font-weight: 500;
+      cursor: pointer;
+      background: none;
+      border: none;
+      padding: 0;
+      text-align: left;
+    }
+
+    .link-btn:hover {
+      text-decoration: underline;
+    }
+
+    /* Interactive History Trivia Box */
+    .fact-section {
+      background-color: #ffffff;
+      border: 1px solid #e0e0e0;
+      padding: 24px 28px;
+      margin-bottom: 40px;
+    }
+
+    .fact-section h3 {
+      font-family: "Times New Roman", Times, Georgia, serif;
+      font-size: 1.4rem;
+      font-weight: normal;
+      margin-bottom: 10px;
+    }
+
+    .fact-display {
+      font-size: 0.98rem;
+      color: #333333;
+      padding: 12px;
+      background-color: #f9f9fa;
+      border-left: 3px solid #2563eb;
+      margin-bottom: 15px;
+      min-height: 50px;
+    }
+
+    .action-btn {
+      background-color: #ffffff;
+      border: 1px solid #cccccc;
+      padding: 7px 15px;
+      font-size: 0.88rem;
+      color: #222222;
+      cursor: pointer;
+      transition: background-color 0.15s ease;
+    }
+
+    .action-btn:hover {
+      background-color: #f0f0f0;
+      border-color: #bbbbbb;
+    }
+
+    /* Modal / Pop-up Overlay */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.4);
+      z-index: 1000;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+    }
+
+    .modal-card {
+      background-color: #ffffff;
+      border: 1px solid #cccccc;
+      max-width: 650px;
+      width: 100%;
+      max-height: 85vh;
+      overflow-y: auto;
+      padding: 30px;
+      position: relative;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+    }
+
+    .modal-close {
+      position: absolute;
+      top: 15px;
+      right: 20px;
+      font-size: 1.5rem;
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: #666666;
+    }
+
+    .modal-close:hover {
+      color: #000000;
+    }
+
+    .modal-card h2 {
+      font-family: "Times New Roman", Times, Georgia, serif;
+      font-size: 2rem;
+      font-weight: normal;
+      margin-bottom: 15px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid #e0e0e0;
+    }
+
+    .modal-card p {
+      font-size: 0.98rem;
+      color: #333333;
+      margin-bottom: 14px;
+      line-height: 1.6;
+    }
+
+    .modal-card ul {
+      margin-left: 20px;
+      margin-bottom: 20px;
+    }
+
+    .modal-card li {
+      font-size: 0.95rem;
+      color: #444444;
+      margin-bottom: 6px;
+    }
+
+    footer {
+      border-top: 1px solid #e0e0e0;
+      padding-top: 15px;
+      padding-bottom: 25px;
+      font-size: 0.85rem;
+      color: #666666;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="page-wrapper">
+    <!-- Header with Breadcrumb Navigation -->
+    <header>
+      <div class="nav-breadcrumb">
+        <a href="index.html">&larr; Back to Main Page</a> / History
+      </div>
+      <h1 class="site-title">Apple's Web</h1>
+      <p class="subtitle">History Subpage — Explore World History &amp; Civilizations</p>
+    </header>
+
+    <!-- Welcome Section -->
+    <section class="welcome-box">
+      <h2>Welcome to History</h2>
+      <p>Explore historical events, ancient civilizations, important figures, and major eras that shaped our modern world. Select any topic below to learn more.</p>
+      <span class="badge">Historical Archives &bull; 6 Eras Available</span>
+    </section>
+
+    <!-- History Categories Grid (3x2) -->
+    <section class="category-grid">
+
+      <!-- 1. Ancient Civilizations -->
+      <article class="category-card">
+        <h3>Ancient World</h3>
+        <p>Discover the birth of human civilization, from ancient Mesopotamia and Egypt to Classical Greece and the Roman Empire.</p>
+        <button class="link-btn" onclick="openArticle('ancient')">Explore Ancient History &rarr;</button>
+      </article>
+
+      <!-- 2. The Middle Ages -->
+      <article class="category-card">
+        <h3>Middle Ages</h3>
+        <p>Explore the medieval era, feudal kingdoms, the Islamic Golden Age, the Silk Road trade, and the Crusades.</p>
+        <button class="link-btn" onclick="openArticle('medieval')">Explore Middle Ages &rarr;</button>
+      </article>
+
+      <!-- 3. Renaissance & Exploration -->
+      <article class="category-card">
+        <h3>Renaissance</h3>
+        <p>Learn about the revival of art, science, and philosophy in Europe, alongside global voyages of discovery.</p>
+        <button class="link-btn" onclick="openArticle('renaissance')">Explore Renaissance &rarr;</button>
+      </article>
+
+      <!-- 4. Industrial Revolution -->
+      <article class="category-card">
+        <h3>Industrial Era</h3>
+        <p>Examine the rise of steam power, modern factories, urbanization, and technological advances of the 18th and 19th centuries.</p>
+        <button class="link-btn" onclick="openArticle('industrial')">Explore Industrial Era &rarr;</button>
+      </article>
+
+      <!-- 5. World Wars & Modern Era -->
+      <article class="category-card">
+        <h3>World Wars</h3>
+        <p>Study the global conflicts of World War I and WWI, the Cold War rivalry, and the formation of modern international alliances.</p>
+        <button class="link-btn" onclick="openArticle('modern')">Explore Modern History &rarr;</button>
+      </article>
+
+      <!-- 6. History of Technology -->
+      <article class="category-card">
+        <h3>Digital Revolution</h3>
+        <p>Follow the origins of computing, telecommunications, space exploration, and the growth of the modern internet.</p>
+        <button class="link-btn" onclick="openArticle('tech_history')">Explore Tech History &rarr;</button>
+      </article>
+
+    </section>
+
+    <!-- Interactive History Fact Generator -->
+    <section class="fact-section">
+      <h3>Historical Fact of the Day</h3>
+      <div class="fact-display" id="factDisplay">
+        Click the button below to discover a fascinating fact from world history!
+      </div>
+      <button class="action-btn" onclick="getRandomFact()">Get Another Historical Fact</button>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+      &copy; 2026 Apple's Web &mdash; History Department
+    </footer>
+  </div>
+
+  <!-- Interactive Pop-up Modal -->
+  <div class="modal-overlay" id="articleModal" onclick="closeModalOnOutsideClick(event)">
+    <div class="modal-card">
+      <button class="modal-close" onclick="closeArticle()">&times;</button>
+      <h2 id="modalTitle">Article Title</h2>
+      <div id="modalBody">
+        <!-- Content inserted dynamically via JS -->
+      </div>
+    </div>
+  </div>
+
+  <!-- Interactive JavaScript -->
+  <script>
+    // Historical Articles Database
+    const articles = {
+      ancient: {
+        title: "Ancient Civilizations",
+        content: "Ancient history covers the rise of human urban centers starting around 3000 BCE in Mesopotamia, Egypt, the Indus Valley, and China. These civilizations pioneered agriculture, written language (such as cuneiform and hieroglyphics), legal codes, and monumental architecture like the Pyramids and ancient aqueducts.",
+        highlights: [
+          "Mesopotamia: The cradle of early urbanization and cuneiform writing.",
+          "Ancient Egypt: Famous for pharaohs, complex religion, and architectural marvels.",
+          "Classical Greece & Rome: Laid foundational ideas for modern democracy, law, and philosophy."
+        ]
+      },
+      medieval: {
+        title: "The Middle Ages & Feudal Empires",
+        content: "Spanning roughly from 500 CE to 1500 CE, the Middle Ages saw the reshaping of Europe following the fall of the Western Roman Empire. Meanwhile, the Islamic Golden Age fostered major advancements in mathematics, medicine, and astronomy while connecting global trade along the Silk Road.",
+        highlights: [
+          "Feudal Systems: Local rulers held land in exchange for military service and labor.",
+          "Islamic Golden Age: Scholars in Baghdad translated and expanded ancient scientific knowledge.",
+          "Global Trade: The Silk Road connected European, Middle Eastern, and Asian economies."
+        ]
+      },
+      renaissance: {
+        title: "The Renaissance & Age of Discovery",
+        content: "Originating in 14th-century Italy, the Renaissance ('rebirth') brought a surge of interest in Classical art, literature, and humanist science. This era coincided with the Age of Discovery, as navigational innovations led explorers to map and interact with distant continents.",
+        highlights: [
+          "Art & Innovation: Icons like Leonardo da Vinci and Michelangelo redefined creative expression.",
+          "The Printing Press: Gutenberg's invention made books and knowledge widely accessible.",
+          "Maritime Exploration: Early global trade routes connected continents like never before."
+        ]
+      },
+      industrial: {
+        title: "The Industrial Revolution",
+        content: "Beginning in 18th-century Britain, the Industrial Revolution transitioned human society from agrarian manual labor to machine-based manufacturing. The invention of the steam engine powered factories, railways, and global shipping, reshaping cities and labor markets.",
+        highlights: [
+          "Steam Power: Revolutionized transportation through locomotives and steamships.",
+          "Urbanization: Millions migrated from rural farmland into growing industrial cities.",
+          "Economic Shifts: Spawned modern industrial capitalism and trade unions."
+        ]
+      },
+      modern: {
+        title: "20th Century & The World Wars",
+        content: "The 20th century witnessed dramatic shifts in global power, marked by World War I, World War II, and the subsequent nuclear era of the Cold War. The post-war era led to the creation of international bodies like the United Nations and rapid decolonization globally.",
+        highlights: [
+          "Global Conflicts: Changed international borders and political structures worldwide.",
+          "The Cold War: A decades-long geopolitical rivalry that accelerated space exploration.",
+          "International Cooperation: Formation of global institutions to maintain diplomacy."
+        ]
+      },
+      tech_history: {
+        title: "The Digital Revolution",
+        content: "Starting in the mid-20th century, the shift from mechanical technology to digital electronics transformed communication and society. Early mainframe computers evolved into personal computers, leading directly to the creation of the global World Wide Web.",
+        highlights: [
+          "Early Computers: ENIAC and vacuum-tube systems evolved into silicon microprocessors.",
+          "The Internet: Transformed global communication, trade, and information access.",
+          "Space Age: Satellite networks enabled modern global positioning and telecommunications."
+        ]
+      }
+    };
+
+    // Historical Facts Database
+    const facts = [
+      "The Great Pyramid of Giza was the tallest man-made structure in the world for over 3,800 years.",
+      "The University of Al-Qarawiyyin in Morocco, founded in 859 CE, is recognized as the world's oldest continually operating university.",
+      "In 1911, the Mona Lisa was stolen from the Louvre in Paris, making it world-famous almost overnight.",
+      "The Roman Empire at its height covered over 5 million square kilometers across three continents.",
+      "The mechanical clock was invented in Europe during the 14th century, revolutionizing how society tracked time.",
+      "The World Wide Web was invented by Sir Tim Berners-Lee in 1989 at CERN."
+    ];
+
+    // Function to open the detailed Modal
+    function openArticle(key) {
+      const data = articles[key];
+      if (!data) return;
+
+      document.getElementById('modalTitle').innerText = data.title;
+      
+      let htmlContent = `<p>${data.content}</p>`;
+      if (data.highlights && data.highlights.length > 0) {
+        htmlContent += `<ul>`;
+        data.highlights.forEach(item => {
+          htmlContent += `<li><strong>Key Note:</strong> ${item}</li>`;
+        });
+        htmlContent += `</ul>`;
+      }
+
+      document.getElementById('modalBody').innerHTML = htmlContent;
+      document.getElementById('articleModal').style.display = 'flex';
+    }
+
+    // Function to close the Modal
+    function closeArticle() {
+      document.getElementById('articleModal').style.display = 'none';
+    }
+
+    // Close Modal when clicking outside the content card
+    function closeModalOnOutsideClick(e) {
+      if (e.target.id === 'articleModal') {
+        closeArticle();
+      }
+    }
+
+    // Function to display a random historical fact
+    function getRandomFact() {
+      const randomIndex = Math.floor(Math.random() * facts.length);
+      document.getElementById('factDisplay').innerText = facts[randomIndex];
+    }
+  </script>
+</body>
+</html>

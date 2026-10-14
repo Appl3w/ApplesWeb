@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <script>
+    // Inline script prevents theme flashing on page load
+    const savedTheme = localStorage.getItem("theme");
+    const systemDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+    if (savedTheme === "dark" || (!savedTheme && systemDark)) {
+      document.documentElement.setAttribute("data-theme", "dark");
+    }
+  </script>
+
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>About - Apple's Web</title>
+
+  <style>
+    /* Theme Color Variables */
+    :root {
+      --bg-color: #ffffff;
+      --text-main: #202122;
+      --text-muted: #54595d;
+      --card-bg: #f8f9fa;
+      --border-color: #c8ccd1;
+      --dropdown-border: #a2a9b1;
+      --link-color: #36c;
+      --btn-bg: #eaecf0;
+      --btn-hover: #d8dce0;
+      --shadow-color: rgba(0, 0, 0, 0.2);
+    }
+
+    [data-theme="dark"] {
+      --bg-color: #1a1a1a;
+      --text-main: #e0e0e0;
+      --text-muted: #b0b0b0;
+      --card-bg: #262626;
+      --border-color: #404040;
+      --dropdown-border: #555555;
+      --link-color: #66b2ff;
+      --btn-bg: #333333;
+      --btn-hover: #444444;
+      --shadow-color: rgba(0, 0, 0, 0.6);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: Georgia, "Times New Roman", serif;
+      color: var(--text-main);
+      background: var(--bg-color);
+      transition: background-color 0.3s ease, color 0.3s ease;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: auto;
+      padding: 30px 25px;
+    }
+
+    /* Floating Top Controls */
+    .top-controls {
+      position: fixed;
+      top: 15px;
+      right: 20px;
+      z-index: 1000;
+      display: flex;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .icon-button {
+      width: 42px;
+      height: 42px;
+      border: 1px solid var(--border-color);
+      border-radius: 50%;
+      background: var(--btn-bg);
+      color: var(--text-main);
+      font-size: 20px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.2s;
+    }
+
+    .icon-button:hover {
+      background: var(--btn-hover);
+    }
+
+    .menu-container {
+      position: relative;
+    }
+
+    .dropdown {
+      display: none;
+      position: absolute;
+      top: 50px;
+      right: 0;
+      width: 190px;
+      background: var(--bg-color);
+      border: 1px solid var(--dropdown-border);
+      box-shadow: 0 3px 10px var(--shadow-color);
+      font-family: Arial, sans-serif;
+    }
+
+    .dropdown.show {
+      display: block;
+    }
+
+    .dropdown a {
+      display: block;
+      padding: 12px 15px;
+      color: var(--link-color);
+      text-decoration: none;
+      font-size: 14px;
+    }
+
+    .dropdown a:hover {
+      background: var(--btn-bg);
+      text-decoration: underline;
+    }
+
+    .loga {
+      height: 100px;
+      padding-top: 20px;
+      padding-left: 20px;
+      padding-right: 20px;
+    }
+
+    header {
+      text-align: center;
+      padding: 10px 0 30px;
+    }
+
+    .logo {
+      font-size: 52px;
+      font-weight: normal;
+      margin-bottom: 5px;
+      color: var(--text-main);
+    }
+
+    .subtitle {
+      font-family: Arial, sans-serif;
+      font-size: 15px;
+      color: var(--text-muted);
+      letter-spacing: 1px;
+    }
+
+    /* Content Box */
+    .content-box {
+      border: 1px solid var(--border-color);
+      padding: 30px;
+      background: var(--card-bg);
+      margin-top: 20px;
+    }
+
+    .content-box h1 {
+      font-size: 32px;
+      font-weight: normal;
+      margin-top: 0;
+      border-bottom: 1px solid var(--border-color);
+      padding-bottom: 10px;
+      color: var(--text-main);
+    }
+
+    .content-box h2 {
+      font-size: 22px;
+      font-weight: normal;
+      margin-top: 25px;
+      margin-bottom: 10px;
+      color: var(--text-main);
+    }
+
+    .content-box p {
+      font-family: Arial, sans-serif;
+      font-size: 15px;
+      line-height: 1.7;
+      color: var(--text-main);
+    }
+
+    .content-box ul {
+      font-family: Arial, sans-serif;
+      font-size: 15px;
+      line-height: 1.8;
+      color: var(--text-muted);
+    }
+
+    .back-link {
+      display: inline-block;
+      margin-top: 20px;
+      font-family: Arial, sans-serif;
+      color: var(--link-color);
+      text-decoration: none;
+    }
+
+    .back-link:hover {
+      text-decoration: underline;
+    }
+
+    footer {
+      margin-top: 50px;
+      padding: 25px 0;
+      border-top: 1px solid var(--border-color);
+      text-align: center;
+      color: var(--text-muted);
+      font-family: Arial, sans-serif;
+      font-size: 13px;
+    }
+
+    @media (max-width: 750px) {
+      .logo {
+        font-size: 40px;
+      }
+      .container {
+        padding: 20px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="top-controls">
+    <!-- Theme Toggle Button -->
+    <button class="icon-button" id="themeToggle" aria-label="Toggle theme">
+      <span id="themeIcon">🌙</span>
+    </button>
+
+    <!-- Navigation Menu Button -->
+    <div class="menu-container">
+      <button class="icon-button" onclick="toggleMenu()" aria-label="Toggle menu">⋮</button>
+      <div class="dropdown" id="dropdownMenu">
+        <a href="/Apple/Q!/index.html">Home</a>
+        <a href="about.html">About Apple's Web</a>
+        <a href="science.html">Science</a>
+        <a href="history.html">History</a>
+        <a href="technology.html">Technology</a>
+        <a href="gaming.html">Gaming</a>
+      </div>
+    </div>
+  </div>
+
+  <img src="/images/log.png" alt="Apple's Web Logo" class="loga">
+
+  <div class="container">
+
+    <header>
+      <div class="logo">About Apple's Web</div>
+      <div class="subtitle">Personal Programming & Web Development Project</div>
+    </header>
+
+    <section class="content-box">
+      <h1>Welcome to My Project</h1>
+      <p>
+        <strong>Apple's Web</strong> is an independent web development project created entirely by me to practice and demonstrate HTML, CSS, and modern front-end layouts. Inspired by clean, classic information hubs, this website combines responsive design with a custom-styled Wikipedia aesthetic.
+      </p>
+
+      <h2>Project Objectives</h2>
+      <ul>
+        <li><strong>Responsive Grid Layouts:</strong> Utilizing CSS Grid and Flexbox to build adaptive interfaces for desktop and mobile devices.</li>
+        <li><strong>Custom UI Elements:</strong> Implementing interactive components like a floating dropdown menu, dark search controls, and pixel-aligned elements.</li>
+        <li><strong>Curated Knowledge Hub:</strong> Organizing diverse topics ranging from science and history to technology, mathematics, and gaming into an accessible portal.</li>
+      </ul>
+
+      <h2>Built With</h2>
+      <p>
+        This site was crafted using clean HTML5, CSS3 for styling and responsive breakpoints, and lightweight vanilla JavaScript for dynamic components.
+      </p>
+
+      <a href="/Apple/Q!/index.html" class="back-link">← Return to Homepage</a>
+    </section>
+
+    <footer>
+      <p>Content is available for educational and informational purposes.</p>
+      <p>© 2026 Apple™</p>
+    </footer>
+
+  </div>
+
+  <script>
+    // Dropdown Toggle
+    function toggleMenu() {
+      const menu = document.getElementById("dropdownMenu");
+      menu.classList.toggle("show");
+    }
+
+    // Theme Switcher Logic
+    const themeToggleBtn = document.getElementById("themeToggle");
+    const themeIcon = document.getElementById("themeIcon");
+
+    function updateIcon(theme) {
+      themeIcon.textContent = theme === "dark" ? "☀️" : "🌙";
+    }
+
+    // Sync button icon with active theme on page load
+    const activeTheme = document.documentElement.getAttribute("data-theme") || "light";
+    updateIcon(activeTheme);
+
+    themeToggleBtn.addEventListener("click", () => {
+      const current = document.documentElement.getAttribute("data-theme");
+      const next = current === "dark" ? "light" : "dark";
+
+      document.documentElement.setAttribute("data-theme", next);
+      localStorage.setItem("theme", next);
+      updateIcon(next);
+    });
+  </script>
+
+</body>
+</html>
